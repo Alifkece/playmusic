@@ -12,11 +12,11 @@ loading.style.display="block";
 resultArea.style.display="none";
 
 try{
-const res=await fetch(`/api/play?query=${encodeURIComponent(query)}`);
+const res=await fetch(`https://corsproxy.io/?https://api.vreden.my.id/api/v1/download/play/audio?query=${encodeURIComponent(query)}`);
 const data=await res.json();
 
 if(!data || data.status!==200){
-alert("Lagu tidak ditemukan");
+alert("Lagu tidak ditemukan atau API error");
 loading.style.display="none";
 return;
 }
