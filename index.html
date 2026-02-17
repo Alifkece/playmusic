@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Music Downloader</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;800&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+
+<style>
+:root{
+--bg:#000;--text:#fff;--muted:#aaa;
+--primary:#ff0000;--secondary:#AD4AE7;
+}
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Poppins',sans-serif}
+body{
+background:
+radial-gradient(circle at 20% 20%,rgba(255,255,255,.1),transparent 30%),
+radial-gradient(circle at 80% 10%,rgba(255,255,255,.08),transparent 25%),
+radial-gradient(circle at 50% 90%,rgba(255,255,255,.05),transparent 30%),
+var(--bg);
+color:var(--text);min-height:100vh;padding:20px;
+}
+.container{max-width:1100px;margin:auto}
+
+.profile-wrapper{
+width:150px;height:150px;border-radius:50%;
+margin:0 auto 25px;padding:5px;
+background:linear-gradient(135deg,var(--primary),var(--secondary));
+box-shadow:0 0 25px rgba(173,74,231,.5);
+animation:glow 4s infinite alternate
+}
+.profile-wrapper video{
+width:100%;height:100%;border-radius:50%;object-fit:cover
+}
+@keyframes glow{
+0%{box-shadow:0 0 15px var(--primary)}
+100%{box-shadow:0 0 30px var(--secondary)}
+}
+
+.header{text-align:center;margin-bottom:30px}
+.title{font-family:'Orbitron',sans-serif;font-size:36px;font-weight:800}
+.subtitle{color:var(--muted)}
+
+.section{
+background:rgba(255,255,255,.05);
+backdrop-filter:blur(15px);
+border:1px solid rgba(255,255,255,.15);
+border-radius:18px;padding:28px;
+margin-bottom:30px;position:relative
+}
+.section::before{
+content:'';position:absolute;top:0;left:0;right:0;height:3px;
+background:linear-gradient(90deg,var(--primary),var(--secondary))
+}
+
+.section-title{
+font-family:'Orbitron',sans-serif;
+font-size:22px;margin-bottom:20px;
+display:flex;align-items:center;gap:10px
+}
+
+.label{margin-bottom:8px;font-weight:600;color:#ddd}
+.input{
+width:100%;padding:12px;
+background:rgba(255,255,255,.08);
+border:1px solid rgba(255,255,255,.2);
+border-radius:12px;color:#fff;margin-bottom:10px
+}
+
+.hint{font-size:13px;color:#888;margin-bottom:15px}
+
+.btn{
+width:100%;padding:14px;
+background:linear-gradient(135deg,var(--primary),var(--secondary));
+border:none;border-radius:12px;
+color:#fff;font-weight:bold;cursor:pointer
+}
+
+.loading{
+display:none;margin-top:15px;
+color:var(--secondary);text-align:center
+}
+
+.result-area{display:none}
+
+.result-area img{
+max-width:200px;border-radius:12px;margin-top:15px
+}
+
+.download{
+display:inline-block;margin-top:15px;
+color:#00ff88;font-weight:bold;text-decoration:none
+}
+
+.info ul{margin-left:20px}
+.info li{margin-bottom:8px}
+
+.note{
+margin-top:15px;
+background:rgba(173,74,231,.1);
+border-left:4px solid #fff900;
+padding:15px;border-radius:8px
+}
+</style>
+</head>
+
+<body>
+<div class="container">
+
+<div class="profile-wrapper">
+<video src="https://files.catbox.moe/84lt73.mp4" autoplay loop muted playsinline></video>
+</div>
+
+<div class="header">
+<h1 class="title">Music Downloader</h1>
+<p class="subtitle">Powered By Aliftzycrt🍓</p>
+</div>
+
+<div class="section">
+<h2 class="section-title">
+<i class="fas fa-music"></i> Cari Lagu
+</h2>
+
+<label class="label">
+<i class="fas fa-search"></i> Judul Lagu
+</label>
+<input type="text" id="query" class="input" placeholder="Contoh: Linkin Park Numb">
+<div class="hint">Masukkan judul lagu atau nama artis</div>
+
+<button class="btn" onclick="playMusic()">
+<i class="fas fa-play"></i> Cari & Download
+</button>
+
+<div class="loading" id="loading">
+<i class="fas fa-spinner fa-spin"></i> Sedang mencari lagu...
+</div>
+</div>
+
+<div class="section result-area" id="resultArea">
+<h2 class="section-title">
+<i class="fas fa-check-circle"></i> Hasil Lagu
+</h2>
+
+<img id="thumb">
+<p><b>Judul:</b> <span id="title"></span></p>
+<p><b>Durasi:</b> <span id="duration"></span></p>
+<p><b>Sumber:</b> <span id="source"></span></p>
+
+<audio id="audio" controls style="width:100%;margin-top:15px;"></audio>
+
+<br>
+<a id="download" class="download" download>
+<i class="fas fa-download"></i> Download MP3
+</a>
+</div>
+
+<div class="section info">
+<h2 class="section-title">
+<i class="fas fa-info-circle"></i> Cara Menggunakan
+</h2>
+
+<ul>
+<li>Masukkan judul lagu atau nama artis</li>
+<li>Klik tombol <b>Cari & Download</b></li>
+<li>Tunggu proses sampai selesai</li>
+<li>Preview lagu akan muncul</li>
+<li>Klik <b>Download MP3</b> untuk menyimpan</li>
+</ul>
+
+<div class="note">
+<i class="fas fa-lightbulb"></i>
+<b>Tips:</b> Gunakan nama lagu yang jelas agar hasil lebih akurat.
+</div>
+</div>
+
+</div>
+
+<script>
+async function playMusic(){
+const query=document.getElementById("query").value;
+if(!query){alert("Masukkan judul lagu dulu");return}
+
+loading.style.display="block";
+resultArea.style.display="none";
+
+try{
+const res=await fetch(`/api/play?query=${encodeURIComponent(query)}`);
+const data=await res.json();
+
+if(!data || data.status!==200){
+alert("Lagu tidak ditemukan");
+loading.style.display="none";
+return;
+}
+
+const {title,downloadUrl,thumbnail,duration,source}=data.result;
+
+thumb.src=thumbnail;
+document.getElementById("title").innerText=title;
+document.getElementById("duration").innerText=duration;
+document.getElementById("source").innerText=source;
+audio.src=downloadUrl;
+download.href=downloadUrl;
+
+resultArea.style.display="block";
+}
+catch(err){
+alert("Server error");
+}
+finally{
+loading.style.display="none";
+}
+}
+</script>
+
+</body>
+</html>
